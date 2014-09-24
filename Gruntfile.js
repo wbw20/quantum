@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     },
     watch: {
       concat: {
-        files: ['src/js/*.js'],
+        files: ['src/js/**/*.js'],
         tasks: ['concat']
       },
       less: {
@@ -59,7 +59,8 @@ module.exports = function(grunt) {
         tasks: ['less']
       },
       copy: {
-        files: ['src/static/**'],
+        files: ['src/static/**',
+                'src/html/**/*.html'],
         tasks: ['copy']
       }
     },
