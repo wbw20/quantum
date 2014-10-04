@@ -9,7 +9,7 @@ $(document).ready(function() {
 
   $('.slider').slider({
     formatter: function(value) {
-      return '$' + abbreviate(exp(value[0]), 3) + ' to ' + '$' + abbreviate(exp(value[1]), 3);
+      return '$' + abbreviate(exp(value[0]), 0) + ' to ' + '$' + abbreviate(exp(value[1]), 0);
     }
   });
 
