@@ -11,12 +11,14 @@ module.exports = function(grunt) {
       },
       vendor_js: {
         src: ['bower_components/jquery/dist/jquery.js',
-              'bower_components/animo.js/animo.js'],
+              'bower_components/animo.js/animo.js',
+              'bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js'],
         dest: 'built/js/vendor.js'
       },
       vendor_css: {
         src: ['bower_components/animo.js/animate+animo.css',
-              'bower_components/bootstrap/dist/css/bootstrap.css'],
+              'bower_components/bootstrap/dist/css/bootstrap.css',
+              'bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css'],
         dest: 'built/css/vendor.css'
       }
     },

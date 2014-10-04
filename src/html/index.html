@@ -11,26 +11,25 @@
     <script type="text/javascript" src="js/index.js"></script>
   </head>
   <body>
-    <div id="query" class="panel">
-      <form>
-        <div class="form-section">
-          <label for="market-cap-lower">Market Cap</label>
-          <input name="market-cap-lower" placeholder="lower bound">
-          <input name="market-cap-upper" placeholder="upper bound">
-        </div>
+    <div id="query" class="panel panel-default">
+      <div class="panel-body">
+        <form>
+          <div class="form-section">
+            <label for="market-cap">Market Cap</label>
+            <input class="slider" name="market-cap" type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[0,100]"/>
+          </div>
 
-        <div class="form-section">
-          <label for="date-begin">Date Range</label>
-          <input name="date-begin" placeholder="begin">
-          <input name="date-end" placeholder="end">
-        </div>
-
-        <div class="form-section">
-          <button class="btn btn-success">Submit</button>
-        </div>
-      </form>
-    </div>
-    <div id="results" class="panel">
+          <div class="form-section">
+            <label for="date">Date Range</label>
+            <input class="slider" name="date" type="text" class="span2" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="[0,100]"/>
+          </div>
+          <div class="form-section">
+            <button class="btn btn-success">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div id="results" class="panel">
+      </div>
     </div>
   </body>
 </html>
