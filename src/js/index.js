@@ -3,7 +3,7 @@ $(document).ready(function() {
     event.preventDefault();
 
     ['ZEN', 'AAPL', 'NYT', 'USB', 'TSLA'].forEach(function(item) {
-      $('#results').append('<div class=\"panel\">' + item + '</div>')
+      $('#results').append('<div class=\"panel panel-default\"><div class=\"panel-body\">' + item + '</div></div>')
     });
   });
 

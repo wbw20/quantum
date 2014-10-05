@@ -1,9 +1,19 @@
+@border-color: #ddd;
+
 body {
   display: block;
 
   .panel {
     width: 800px;
     margin: 50px auto;
+
+    .panel-header {
+      border-bottom: 1px solid @border-color;
+
+      h2 {
+        margin-left: 15px;
+      }
+    }
   }
 }
 
