@@ -7,9 +7,15 @@ $(document).ready(function() {
     });
   });
 
-  $('.slider').slider({
+  $('.slider[name="market-cap"]').slider({
     formatter: function(value) {
       return '$' + abbreviate(exp(value[0]), 0) + ' to ' + '$' + abbreviate(exp(value[1]), 0);
+    }
+  });
+
+  $('.slider[name="sp-performance"]').slider({
+    formatter: function(value) {
+      return value[0] + 'th %tile to ' + value[1] + 'th %tile';
     }
   });
 
