@@ -1,6 +1,9 @@
 $(document).ready(function() {
-  $('#query .btn').click(function(event) {
+  $('#query .nav-pills li').click(function(event) {
     event.preventDefault();
+
+    $('#query .nav-pills li').removeClass('active');
+    $(this).addClass('active');
 
     ['ZEN', 'AAPL', 'NYT', 'USB', 'TSLA'].forEach(function(item) {
       $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
