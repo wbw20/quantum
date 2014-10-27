@@ -50,7 +50,7 @@ $(document).ready(function() {
       var pill = $('<li>' +
           '<a href=\"#\">' + metric + '<span class=\"badge\">42</span></a>' +
         '</li>');
-      $('.nav-pills').appendChild(pill);
+      $('.nav-pills').append(pill);
 
       pill.click(function() {
         metric.forEach(function(item) {
