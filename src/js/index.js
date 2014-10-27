@@ -63,6 +63,6 @@ $(document).ready(function() {
       });
     });
 
-    $('.nav-pills li').get(0).addClass('active');
+    $('.nav-pills li:first-child').addClass('active');
   });
 });
