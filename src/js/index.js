@@ -44,28 +44,25 @@ $(document).ready(function() {
     return number;
   }
 
-  $.getJSON('api/metrics', function(data) {
-    console.log(data);
-  });
-
   /* Nav Pills */
-  _.keys(metrics).forEach(function(metric) {
-    $('.nav-pills').appendChild(
-      '<li>' +
-        '<a href=\"#\">' + metric + '<span class=\"badge\">42</span></a>' +
-      '</li>');
-  });
+  $.getJSON('api/metrics', function(metrics) {
+    _.keys(metrics).forEach(function(metric) {
+      var pill = $('<li>' +
+          '<a href=\"#\">' + metric + '<span class=\"badge\">42</span></a>' +
+        '</li>');
+      $('.nav-pills').appendChild(pill);
 
-  $('.nav-pills li').get(0).addClass('active');
+      pill.click(function() {
+        metric.forEach(function(item) {
+          event.preventDefault();
+          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
 
-  $('#query .nav-pills li').click(function(event) {
-    event.preventDefault();
-
-    $('#query .nav-pills li').removeClass('active');
-    $(this).addClass('active');
-
-    ['ZEN', 'AAPL', 'NYT', 'USB', 'TSLA'].forEach(function(item) {
-      $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
+          $('#query .nav-pills li').removeClass('active');
+          $(this).addClass('active');
+        });
+      });
     });
+
+    $('.nav-pills li').get(0).addClass('active');
   });
 });
