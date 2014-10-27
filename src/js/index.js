@@ -1,9 +1,3 @@
-var metrics = {
-  '20 Day > 50 Day': 'compareAverages',
-  '10% Performance': 'compareAverages',
-  'Fake Metric': 'fake'
-};
-
 $(document).ready(function() {
   $('.slider[name="market-cap"]').slider({
     formatter: function(value) {
