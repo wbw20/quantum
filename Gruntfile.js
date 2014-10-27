@@ -11,6 +11,7 @@ module.exports = function(grunt) {
       },
       vendor_js: {
         src: ['bower_components/jquery/dist/jquery.js',
+              'bower_components/underscore/underscore.js',
               'bower_components/animo.js/animo.js',
               'bower_components/bootstrap/dist/js/bootstrap.js',
               'bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js'],

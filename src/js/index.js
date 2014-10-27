@@ -1,3 +1,9 @@
+var metrics = {
+  '20 Day > 50 Day': 'compareAverages',
+  '10% Performance': 'compareAverages',
+  'Fake Metric': 'fake'
+};
+
 $(document).ready(function() {
   $('#query .nav-pills li').click(function(event) {
     event.preventDefault();
@@ -48,4 +54,14 @@ $(document).ready(function() {
 
     return number;
   }
+
+  /* Nav Pills */
+  _.keys(metrics).forEach(function(metric) {
+    $('.nav-pills').appendChild(
+      '<li>' +
+        '<a href=\"#\">' + metric + '<span class=\"badge\">42</span></a>' +
+      '</li>');
+  });
+
+  $('.nav-pills li').get(0).addClass('active');
 });
