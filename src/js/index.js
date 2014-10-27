@@ -5,17 +5,6 @@ var metrics = {
 };
 
 $(document).ready(function() {
-  $('#query .nav-pills li').click(function(event) {
-    event.preventDefault();
-
-    $('#query .nav-pills li').removeClass('active');
-    $(this).addClass('active');
-
-    ['ZEN', 'AAPL', 'NYT', 'USB', 'TSLA'].forEach(function(item) {
-      $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
-    });
-  });
-
   $('.slider[name="market-cap"]').slider({
     formatter: function(value) {
       return '$' + abbreviate(exp(value[0]), 0) + ' to ' + '$' + abbreviate(exp(value[1]), 0);
@@ -55,6 +44,10 @@ $(document).ready(function() {
     return number;
   }
 
+  $.getJSON('api/metrics', function(data) {
+    console.log(data);
+  });
+
   /* Nav Pills */
   _.keys(metrics).forEach(function(metric) {
     $('.nav-pills').appendChild(
@@ -64,4 +57,15 @@ $(document).ready(function() {
   });
 
   $('.nav-pills li').get(0).addClass('active');
+
+  $('#query .nav-pills li').click(function(event) {
+    event.preventDefault();
+
+    $('#query .nav-pills li').removeClass('active');
+    $(this).addClass('active');
+
+    ['ZEN', 'AAPL', 'NYT', 'USB', 'TSLA'].forEach(function(item) {
+      $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
+    });
+  });
 });
