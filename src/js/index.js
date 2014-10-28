@@ -40,14 +40,16 @@ $(document).ready(function() {
 
   /* Nav Pills */
   $.getJSON('api/metrics', function(metrics) {
-    _.keys(metrics).forEach(function(metric) {
-      var pill = $('<li>' +
-          '<a href=\"#\">' + metric + '<span class=\"badge\">42</span></a>' +
+    _.pairs(metrics).forEach(function(metric) {
+      var name = metric[0],
+          values = metric[1],
+          pill = $('<li>' +
+          '<a href=\"#\">' + name + '<span class=\"badge\">42</span></a>' +
         '</li>');
       $('.nav-pills').append(pill);
 
       pill.click(function() {
-        metric.forEach(function(item) {
+        values.forEach(function(item) {
           event.preventDefault();
           $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
 
