@@ -44,14 +44,14 @@ $(document).ready(function() {
       var name = metric[0],
           values = metric[1],
           pill = $('<li>' +
-          '<a href=\"#\">' + name + '<span class=\"badge\">42</span></a>' +
-        '</li>');
+                     '<a href=\"#\">' + name + '<span class=\"badge\">42</span></a>' +
+                   '</li>');
       $('.nav-pills').append(pill);
 
       pill.click(function() {
         values.forEach(function(item) {
           event.preventDefault();
-          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">Info: \n\nA great stock\nbuy it</div></div>')
+          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item.key + '</div><div class=\"panel-body\">' + JSON.parse(item, null, 2) + '</div></div>')
 
           $('#query .nav-pills li').removeClass('active');
           $(this).addClass('active');
