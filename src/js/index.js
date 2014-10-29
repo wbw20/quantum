@@ -51,7 +51,7 @@ $(document).ready(function() {
       pill.click(function() {
         values.forEach(function(item) {
           event.preventDefault();
-          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item.key + '</div><div class=\"panel-body\">' + JSON.parse(item, null, 2) + '</div></div>')
+          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item.key + '</div><div class=\"panel-body\">UP: ' + ((item.twenty_day.avg_close.value / item.fifty_day.avg_close.value) - 1) * 100 + '%</div></div>');
 
           $('#query .nav-pills li').removeClass('active');
           $(this).addClass('active');
