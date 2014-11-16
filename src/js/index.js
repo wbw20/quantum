@@ -40,24 +40,30 @@ $(document).ready(function() {
 
   /* Nav Pills */
   // $.getJSON('api/metrics', function(metrics) {
-    var metrics = {"hot_stocks":[{"_index":"stockmachine","_type":"metric","_id":"hqYMvaYiRxCUBG-uvNwm4A","_score":null,"_source":{"tickers":"[\"ZEN\", \"AAPL\", \"TSLA\", \"IBM\", \"MSFT\"]","date":"1416299856000","name":"hot_stocks"},"sort":[1416299856000]}],"insider_sell_offs":[{"_index":"stockmachine","_type":"metric","_id":"9f8F_-_YRjGiUV0V2O09ZQ","_score":null,"_source":{"tickers":"[\"BAC\", \"NYT\", \"MDMN\"]","date":"1416299856000","name":"insider_sell_offs"},"sort":[1416299856000]}],"bond_vs_equity":[{"_index":"stockmachine","_type":"metric","_id":"5I9q_1jvRu2roaqnYvHeLw","_score":null,"_source":{"tickers":"[\"PWC\", \"USB\", \"FB\", \"AAPL\"]","date":"1516399956000","name":"bond_vs_equity"},"sort":[1516399956000]}]};
+    var metrics = {"high_performance_underfollowed":[{"_index":"stockmachine","_type":"metric","_id":"AP8xAkxoT568h88t8_Vy5g","_score":null,"_source":{"name":"high_performance_underfollowed","date":1416164727000,"data":[]},"sort":[1416164727000]}],"compare_averages":[{"_index":"stockmachine","_type":"metric","_id":"cCX5EOKETvSX_8NrNxOI-Q","_score":null,"_source":{"name":"compare_averages","date":1416164727000,"data":[{"key":"GOOGL US Equity","doc_count":229,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}},{"key":"AAPL US Equity","doc_count":219,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}},{"key":"MSFT US Equity","doc_count":212,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}},{"key":"BRK/B US Equity","doc_count":115,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}}]},"sort":[1416164727000]}]};
     _.pairs(metrics).forEach(function(metric) {
       var name = metric[0],
           values = metric[1],
+          tickers = values[0]._source.data,
           pill = $('<li>' +
-                     '<a href=\"#\">' + name + '<span class=\"badge\">42</span></a>' +
-                   '</li>'),
-          tickers = JSON.parse(values[0]._source.tickers);
+                     '<a href=\"#\">' + name + '<span class=\"badge\">' + tickers.length + '</span></a>' +
+                   '</li>');
       $('.nav-pills').append(pill);
 
       pill.click(function() {
-        tickers.forEach(function(item) {
-          event.preventDefault();
-          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">A really nice stock for ya</div></div>');
+        $('#results').empty();
 
-          $('#query .nav-pills li').removeClass('active');
-          $(this).addClass('active');
+        tickers.forEach(function(item) {
+          var name   = item.key,
+              twenty = item.twenty_day.px_last.value,
+              fifty  = item.fifty_day.px_last.value;
+
+          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item.key + '</div><div class=\"panel-body\">20 Day: ' + twenty + '<br>50 Day: ' + fifty + '</div></div>');
         });
+
+        event.preventDefault();
+        $('#query .nav-pills li').removeClass('active');
+        $(this).addClass('active');
       });
     });
 
