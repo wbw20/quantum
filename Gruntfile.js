@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.initConfig({
     concat: {
       index_js: {
@@ -68,7 +69,20 @@ module.exports = function(grunt) {
         tasks: ['copy']
       }
     },
+    connect: {
+      server: {
+        options: {
+          port: 8080,
+          base: 'built',
+          options: {
+            index: 'index.html'
+          }
+        }
+      },
+      keepalive: true
+    }
   });
 
   grunt.registerTask('default', ['less', 'concat', 'copy']);
+  grunt.registerTask('serve', ['connect:server', 'watch']);
 };
