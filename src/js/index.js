@@ -39,19 +39,21 @@ $(document).ready(function() {
   }
 
   /* Nav Pills */
-  $.getJSON('api/metrics', function(metrics) {
+  // $.getJSON('api/metrics', function(metrics) {
+    var metrics = {"hot_stocks":[{"_index":"stockmachine","_type":"metric","_id":"hqYMvaYiRxCUBG-uvNwm4A","_score":null,"_source":{"tickers":"[\"ZEN\", \"AAPL\", \"TSLA\", \"IBM\", \"MSFT\"]","date":"1416299856000","name":"hot_stocks"},"sort":[1416299856000]}],"insider_sell_offs":[{"_index":"stockmachine","_type":"metric","_id":"9f8F_-_YRjGiUV0V2O09ZQ","_score":null,"_source":{"tickers":"[\"BAC\", \"NYT\", \"MDMN\"]","date":"1416299856000","name":"insider_sell_offs"},"sort":[1416299856000]}],"bond_vs_equity":[{"_index":"stockmachine","_type":"metric","_id":"5I9q_1jvRu2roaqnYvHeLw","_score":null,"_source":{"tickers":"[\"PWC\", \"USB\", \"FB\", \"AAPL\"]","date":"1516399956000","name":"bond_vs_equity"},"sort":[1516399956000]}]};
     _.pairs(metrics).forEach(function(metric) {
       var name = metric[0],
           values = metric[1],
           pill = $('<li>' +
                      '<a href=\"#\">' + name + '<span class=\"badge\">42</span></a>' +
-                   '</li>');
+                   '</li>'),
+          tickers = JSON.parse(values[0]._source.tickers);
       $('.nav-pills').append(pill);
 
       pill.click(function() {
-        values.forEach(function(item) {
+        tickers.forEach(function(item) {
           event.preventDefault();
-          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item.key + '</div><div class=\"panel-body\">UP: ' + ((item.twenty_day.avg_close.value / item.fifty_day.avg_close.value) - 1) * 100 + '%</div></div>');
+          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item + '</div><div class=\"panel-body\">A really nice stock for ya</div></div>');
 
           $('#query .nav-pills li').removeClass('active');
           $(this).addClass('active');
@@ -60,5 +62,5 @@ $(document).ready(function() {
     });
 
     $('.nav-pills li:first-child').addClass('active');
-  });
+  // });
 });
