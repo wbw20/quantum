@@ -58,7 +58,19 @@ $(document).ready(function() {
               twenty = item.twenty_day.px_last.value,
               fifty  = item.fifty_day.px_last.value;
 
-          $('#results').append('<div class=\"panel panel-info\"><div class=\"panel-heading\">' + item.key + '</div><div class=\"panel-body\">20 Day: ' + twenty + '<br>50 Day: ' + fifty + '</div></div>');
+          $('#results').append( '<div class=\"panel panel-info\">' + 
+                                  '<div class=\"panel-heading\">' +
+                                    item.key +
+                                  '</div>' +
+                                  '<div class=\"panel-body\">' +
+                                    '20 Day: ' + twenty +
+                                    '<br>' +
+                                    '50 Day: ' + fifty +
+                                    '<div class=\"open-in\">' +
+                                      '<h3>Open in Yahoo</h3>' +
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>');
         });
 
         event.preventDefault();
