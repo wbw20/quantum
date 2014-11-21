@@ -39,8 +39,7 @@ $(document).ready(function() {
   }
 
   /* Nav Pills */
-  // $.getJSON('api/metrics', function(metrics) {
-    var metrics = {"high_performance_underfollowed":[{"_index":"stockmachine","_type":"metric","_id":"AP8xAkxoT568h88t8_Vy5g","_score":null,"_source":{"name":"high_performance_underfollowed","date":1416164727000,"data":[]},"sort":[1416164727000]}],"compare_averages":[{"_index":"stockmachine","_type":"metric","_id":"cCX5EOKETvSX_8NrNxOI-Q","_score":null,"_source":{"name":"compare_averages","date":1416164727000,"data":[{"key":"GOOGL US Equity","doc_count":229,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}},{"key":"AAPL US Equity","doc_count":219,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}},{"key":"MSFT US Equity","doc_count":212,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}},{"key":"BRK/B US Equity","doc_count":115,"twenty_day":{"doc_count":0,"px_last":{"value":null},"avg_volume":{"value":null}},"fifty_day":{"doc_count":0,"px_last":{"value":null}}}]},"sort":[1416164727000]}]};
+  $.getJSON('//54.187.190.186/api/metrics', function(metrics) {
     _.pairs(metrics).forEach(function(metric) {
       var name = metric[0],
           values = metric[1],
@@ -67,7 +66,7 @@ $(document).ready(function() {
                                     '<br>' +
                                     '50 Day: ' + fifty +
                                     '<div class=\"open-in\">' +
-                                      '<h3>Open in Yahoo</h3>' +
+                                      '<h3 data-symbol=\"' + name + '\">Open in Yahoo</h3>' +
                                     '</div>' +
                                   '</div>' +
                                 '</div>');
@@ -80,5 +79,13 @@ $(document).ready(function() {
     });
 
     $('.nav-pills li:first-child').addClass('active');
-  // });
+  });
+
+  $(document).on('click', 'h3', function(event) {
+    var name = $(event.target).data('symbol').split(' US Equity')[0];
+
+    if (name) {
+      window.open('//finance.yahoo.com/q?s=' + name.replace('/', '-').toUpperCase());
+    }
+  });
 });
