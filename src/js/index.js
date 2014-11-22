@@ -1,4 +1,20 @@
 $(document).ready(function() {
+  var cache = {};
+
+  function fetch(cb) {
+    $.getJSON('//54.187.190.186/api/metrics', function(metrics) {
+      _.pairs(metrics).forEach(function(metric) {
+        var obj = metric[1][0]._source;
+        cache[obj.name] = {
+          data: obj.data,
+          show: 0
+        }
+      });
+
+      cb(cache);
+    });
+  }
+
   $('.slider[name="market-cap"]').slider({
     formatter: function(value) {
       return '$' + abbreviate(exp(value[0]), 0) + ' to ' + '$' + abbreviate(exp(value[1]), 0);
@@ -40,29 +56,30 @@ $(document).ready(function() {
 
   function populate(metric) {
     var name = metric[0],
-        values = metric[1],
-        tickers = values[0]._source.data,
+        tickers = metric[1].data,
         pill = $('<li>' +
                    '<a href=\"#\">' + name + '<span class=\"badge\">' + tickers.length + '</span></a>' +
                  '</li>');
     $('.nav-pills').append(pill);
 
     pill.click(function(event) {
-      display(tickers);
+      display(metric[1], 10);
 
       event.preventDefault();
       $('#query .nav-pills li').removeClass('active');
       $(event.target).closest('li').addClass('active');
     });
+
+    $('.nav-pills li:first-child').addClass('active');
   }
 
-  function display(tickers) {
+  function display(metric, amount) {
     $('#results').empty();
 
-    var max   = 10,
-        count = 0;
+    var max   = amount,
+        count = metric.show;
 
-    tickers.forEach(function(item) {
+    metric.data.forEach(function(item) {
       if (count >= max) {
         return;
       }
@@ -94,12 +111,21 @@ $(document).ready(function() {
   }
 
   /* Nav Pills */
-  $.getJSON('//54.187.190.186/api/metrics', function(metrics) {
-    _.pairs(metrics).forEach(populate);
+  // $.getJSON('//54.187.190.186/api/metrics', function(metrics) {
+  //   _.pairs(metrics).forEach(populate);
 
-    display(_.pairs(metrics)[0][1][0]._source.data);
+  //   debugger
 
-    $('.nav-pills li:first-child').addClass('active');
+  //   display(_.pairs(metrics)[0][1][0]._source.data);
+
+  //   $('.nav-pills li:first-child').addClass('active');
+  // });
+
+  fetch(function(results) {
+    var pairs = _.pairs(results);
+
+    pairs.forEach(populate);
+    display(pairs[0][1], 10);
   });
 
   $(document).on('click', 'h3', function(event) {
@@ -111,13 +137,12 @@ $(document).ready(function() {
   });
 
   $(window).scroll(function () {
-        var theWindow = $(this);       
-        var theContainer = $('body');  
-        var tweak = 10;
+    var theWindow = $(this);
+    var theContainer = $('body');
+    var tweak = 10;
 
-        if ( theWindow.scrollTop() >= theContainer.height() - theWindow.height() - tweak ) {
-          addResult('loading', 'so just chill...');
-        }
-
-      });
+    if ( theWindow.scrollTop() >= theContainer.height() - theWindow.height() - tweak ) {
+      addResult('loading', 'so just chill...');
+    }
+  });
 });
