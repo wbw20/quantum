@@ -52,6 +52,14 @@ module.exports = function(grunt) {
           src: ['**'],
           dest: 'built/'
         }]
+      },
+      maps: {
+        files: [{
+          expand: true,
+          cwd: 'bower_components/bootstrap/dist/css',
+          src: ['bootstrap.css.map'],
+          dest: 'built/css/'
+        }]
       }
     },
     watch: {
