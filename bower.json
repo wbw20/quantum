@@ -13,9 +13,11 @@
     "tests"
   ],
   "dependencies": {
+    "jquery": "latest",
     "animo.js": "*",
     "bootstrap": "~3.1.1",
     "seiyria-bootstrap-slider": "~4.0.1",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "jquery-infinite-scroll": "~2.0.2"
   }
 }

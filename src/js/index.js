@@ -38,45 +38,66 @@ $(document).ready(function() {
     return number;
   }
 
+  function populate(metric) {
+    var name = metric[0],
+        values = metric[1],
+        tickers = values[0]._source.data,
+        pill = $('<li>' +
+                   '<a href=\"#\">' + name + '<span class=\"badge\">' + tickers.length + '</span></a>' +
+                 '</li>');
+    $('.nav-pills').append(pill);
+
+    pill.click(function(event) {
+      display(tickers);
+
+      event.preventDefault();
+      $('#query .nav-pills li').removeClass('active');
+      $(event.target).closest('li').addClass('active');
+    });
+  }
+
+  function display(tickers) {
+    $('#results').empty();
+
+    var max   = 10,
+        count = 0;
+
+    tickers.forEach(function(item) {
+      if (count >= max) {
+        return;
+      }
+
+      count++;
+
+      var name   = item.key,
+          twenty = item.twenty_day.px_last.value,
+          fifty  = item.fifty_day.px_last.value;
+
+      addResult(name, '20 Day: ' + twenty +
+                      '<br>' +
+                      '50 Day: ' + fifty +
+                      '<div class=\"open-in\">' +
+                        '<h3 data-symbol=\"' + name + '\">Open in Yahoo</h3>' +
+                      '</div>');
+    });
+  }
+
+  function addResult(title, body) {
+    $('#results').append( '<div class=\"panel panel-info\">' +
+                            '<div class=\"panel-heading\">' +
+                              title +
+                            '</div>' +
+                            '<div class=\"panel-body\">' +
+                              body +
+                            '</div>' +
+                          '</div>');
+  }
+
   /* Nav Pills */
   $.getJSON('//54.187.190.186/api/metrics', function(metrics) {
-    _.pairs(metrics).forEach(function(metric) {
-      var name = metric[0],
-          values = metric[1],
-          tickers = values[0]._source.data,
-          pill = $('<li>' +
-                     '<a href=\"#\">' + name + '<span class=\"badge\">' + tickers.length + '</span></a>' +
-                   '</li>');
-      $('.nav-pills').append(pill);
+    _.pairs(metrics).forEach(populate);
 
-      pill.click(function() {
-        $('#results').empty();
-
-        tickers.forEach(function(item) {
-          var name   = item.key,
-              twenty = item.twenty_day.px_last.value,
-              fifty  = item.fifty_day.px_last.value;
-
-          $('#results').append( '<div class=\"panel panel-info\">' + 
-                                  '<div class=\"panel-heading\">' +
-                                    item.key +
-                                  '</div>' +
-                                  '<div class=\"panel-body\">' +
-                                    '20 Day: ' + twenty +
-                                    '<br>' +
-                                    '50 Day: ' + fifty +
-                                    '<div class=\"open-in\">' +
-                                      '<h3 data-symbol=\"' + name + '\">Open in Yahoo</h3>' +
-                                    '</div>' +
-                                  '</div>' +
-                                '</div>');
-        });
-
-        event.preventDefault();
-        $('#query .nav-pills li').removeClass('active');
-        $(this).addClass('active');
-      });
-    });
+    display(_.pairs(metrics)[0][1][0]._source.data);
 
     $('.nav-pills li:first-child').addClass('active');
   });
@@ -88,4 +109,15 @@ $(document).ready(function() {
       window.open('//finance.yahoo.com/q?s=' + name.replace('/', '-').toUpperCase());
     }
   });
+
+  $(window).scroll(function () {
+        var theWindow = $(this);       
+        var theContainer = $('body');  
+        var tweak = 10;
+
+        if ( theWindow.scrollTop() >= theContainer.height() - theWindow.height() - tweak ) {
+          addResult('loading', 'so just chill...');
+        }
+
+      });
 });
