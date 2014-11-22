@@ -6,13 +6,16 @@ $(document).ready(function() {
       _.pairs(metrics).forEach(function(metric) {
         var obj = metric[1][0]._source;
         cache[obj.name] = {
-          data: obj.data,
-          show: 0
+          data: obj.data
         }
       });
 
       cb(cache);
     });
+  }
+
+  function numShowing() {
+    return $('#results .panel').length;
   }
 
   $('.slider[name="market-cap"]').slider({
@@ -58,11 +61,12 @@ $(document).ready(function() {
     var name = metric[0],
         tickers = metric[1].data,
         pill = $('<li>' +
-                   '<a href=\"#\">' + name + '<span class=\"badge\">' + tickers.length + '</span></a>' +
+                   '<a href=\"#\" data-name=\"' + name + '\">' + name.replace(/_/g, ' ') + '<span class=\"badge\">' + tickers.length + '</span></a>' +
                  '</li>');
     $('.nav-pills').append(pill);
 
     pill.click(function(event) {
+      $('#results').empty();
       display(metric[1], 10);
 
       event.preventDefault();
@@ -74,19 +78,13 @@ $(document).ready(function() {
   }
 
   function display(metric, amount) {
-    $('#results').empty();
+    var count = numShowing(),
+        total = metric.data.length,
+        max   = count + amount;
 
-    var max   = amount,
-        count = metric.show;
-
-    metric.data.forEach(function(item) {
-      if (count >= max) {
-        return;
-      }
-
-      count++;
-
-      var name   = item.key,
+    for (var i = count; count < max && count < total; count++) {
+      var item   = metric.data[count],
+          name   = item.key,
           twenty = item.twenty_day.px_last.value,
           fifty  = item.fifty_day.px_last.value;
 
@@ -96,7 +94,7 @@ $(document).ready(function() {
                       '<div class=\"open-in\">' +
                         '<h3 data-symbol=\"' + name + '\">Open in Yahoo</h3>' +
                       '</div>');
-    });
+    }
   }
 
   function addResult(title, body) {
@@ -110,21 +108,11 @@ $(document).ready(function() {
                           '</div>');
   }
 
-  /* Nav Pills */
-  // $.getJSON('//54.187.190.186/api/metrics', function(metrics) {
-  //   _.pairs(metrics).forEach(populate);
-
-  //   debugger
-
-  //   display(_.pairs(metrics)[0][1][0]._source.data);
-
-  //   $('.nav-pills li:first-child').addClass('active');
-  // });
-
   fetch(function(results) {
     var pairs = _.pairs(results);
 
     pairs.forEach(populate);
+    $('#results').empty();
     display(pairs[0][1], 10);
   });
 
@@ -142,7 +130,11 @@ $(document).ready(function() {
     var tweak = 10;
 
     if ( theWindow.scrollTop() >= theContainer.height() - theWindow.height() - tweak ) {
-      addResult('loading', 'so just chill...');
+      var metric = cache[$('li.active a').data('name')];
+
+      if (metric) {
+        display(metric, 10);
+      }
     }
   });
 });
